@@ -1,4 +1,4 @@
-const mysql = require('mysql2');
+import mysql from 'mysql2';
 const pool = mysql.createPool({
     host: 'localhost',
     port: 3307,
@@ -6,3 +6,6 @@ const pool = mysql.createPool({
     password: 'MySQL@root',
     database: 'todoing_app',
 }).promise()
+
+const result = await pool.query('SELECT * FROM todo');
+console.log(result);
