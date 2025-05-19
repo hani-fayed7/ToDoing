@@ -7,5 +7,9 @@ const pool = mysql.createPool({
     database: 'todoing_app',
 }).promise()
 
-const result = await pool.query('SELECT * FROM todo');
-console.log(result);
+async function testDBConnection() {   
+    const [result] = await pool.query('SELECT * FROM todo');
+    console.log(result);
+}
+
+testDBConnection()
