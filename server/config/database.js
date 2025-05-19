@@ -31,5 +31,15 @@ async function todo(id){
     
 }
 
+async function create_todo(title, content){
+    const [result] = await pool.query(`
+        INSERT INTO todo (title, content)
+        VALUES (?, ?)
+        `, [title, content]);
+    const id = result.insertId;
+    return todo(id);
+}
+
 // testDBConnection()
-console.log(await todo(1))
+// console.log(await todo(1))
+console.log(await create_todo('test title', 'testing content'));
