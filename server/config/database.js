@@ -20,4 +20,16 @@ async function testDBConnection() {
     console.log(result);
 }
 
-testDBConnection()
+// Test the select query with a parameter
+async function todo(id){
+    const [result] = await pool.query(`
+        SELECT * 
+        FROM todo
+        WHERE id = ?
+        `, [id]);
+    return result;
+    
+}
+
+// testDBConnection()
+console.log(await todo(1))
