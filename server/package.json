@@ -7,12 +7,11 @@
   "name": "todoing",
   "version": "1.0.0",
   "description": "First todo app with NodeJS & ExpressJS as backend",
-  "main": "index.js",
+  "main": "./config/database.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "app": "nodemon ./server/app.js",
-    "start": "node server.js"
+    "app": "nodemon app.js"
   },
   "repository": {
     "type": "git",
