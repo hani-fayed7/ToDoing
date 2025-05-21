@@ -11,7 +11,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "app": "nodemon ./server/app.js"
+    "app": "nodemon ./server/app.js",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -23,5 +24,6 @@
   "bugs": {
     "url": "https://github.com/hani-fayed7/ToDoing/issues"
   },
-  "homepage": "https://github.com/hani-fayed7/ToDoing#readme"
+  "homepage": "https://github.com/hani-fayed7/ToDoing#readme",
+  "devDependencies": {}
 }
