@@ -66,10 +66,11 @@ A simple Todo application with a Node.js & Express.js backend and a client-side 
 
    Create a `todo` table in your MySQL database:
    ```sql
-   CREATE TABLE todo (
-     id INT AUTO_INCREMENT PRIMARY KEY,
+   CREATE TABLE hani(
+     id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
      title VARCHAR(255) NOT NULL,
-     content TEXT
+     content TEXT NOT NULL,
+     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL 
    );
    ```
 
