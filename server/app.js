@@ -3,11 +3,26 @@ import {testDBConnection, todo, create_todo} from './config/database.js';
 import dotenv from 'dotenv'
 
 const app = express();
-dotenv.config({path: '../.env'});
+app.use(express.json());
 
+// Get all todos
 app.get("/todo", async (req, res) => {
     const todos = await testDBConnection();
     res.send(todos);
+});
+
+// Get a specific todo by ID
+app.get("/todo/:id", async (req, res) => {
+    const id = req.params.id;
+    const todos = await todo(id);
+    res.send(todos);
+});
+
+// Create a new todo
+app.post("/todo", async (req, res) => {
+    const {title, content} = req.body;
+    const createTodo = await create_todo(title, content);
+    res.status(201).send(createTodo);
 });
 
 // Error handling middleware
