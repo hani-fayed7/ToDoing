@@ -1,9 +1,13 @@
-import express from "express";
+import express from 'express';
+import {testDBConnection, todo, create_todo} from './config/database.js';
+import dotenv from 'dotenv'
+
 const app = express();
+dotenv.config({path: '../.env'});
 
-
-app.get("/todo", (req, res) => {
-    res.send("Hello World");
+app.get("/todo", async (req, res) => {
+    const todos = await testDBConnection();
+    res.send(todos);
 });
 
 // Error handling middleware

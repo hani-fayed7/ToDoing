@@ -10,8 +10,7 @@
   "main": "./config/database.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "app": "nodemon app.js"
+    "dev": "nodemon app.js"
   },
   "repository": {
     "type": "git",

@@ -2,8 +2,8 @@ import mysql from 'mysql2'
 import dotenv from 'dotenv'
 
 // Load environment variables from .env file
-dotenv.config({path: '../../.env'});
-
+// dotenv.config({path: '../.env'});
+dotenv.config();
 
 // Create a connection pool
 const pool = mysql.createPool({
@@ -17,7 +17,7 @@ const pool = mysql.createPool({
 // Test the connection
 export async function testDBConnection() {   
     const [result] = await pool.query('SELECT * FROM todo');
-    console.log(result);
+    return result;
 }
 
 // Test the select query with a parameter
@@ -40,6 +40,4 @@ export async function create_todo(title, content){
     return todo(id);
 }
 
-// testDBConnection()
-// console.log(await todo(1))
-//console.log(await create_todo('test title3', 'testing content3'));
+// console.log(await testDBConnection());
