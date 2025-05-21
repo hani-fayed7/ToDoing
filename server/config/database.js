@@ -15,13 +15,13 @@ const pool = mysql.createPool({
 }).promise()
 
 // Test the connection
-async function testDBConnection() {   
+export async function testDBConnection() {   
     const [result] = await pool.query('SELECT * FROM todo');
     console.log(result);
 }
 
 // Test the select query with a parameter
-async function todo(id){
+export async function todo(id){
     const [result] = await pool.query(`
         SELECT * 
         FROM todo
@@ -31,7 +31,7 @@ async function todo(id){
     
 }
 
-async function create_todo(title, content){
+export async function create_todo(title, content){
     const [result] = await pool.query(`
         INSERT INTO todo (title, content)
         VALUES (?, ?)
