@@ -1,14 +1,14 @@
 {
   "dependencies": {
     "dotenv": "^16.5.0",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "mysql2": "^3.14.1"
   },
   "name": "todoing",
   "version": "1.0.0",
   "description": "First todo app with NodeJS & ExpressJS as backend",
   "main": "index.js",
   "type": "module",
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "app": "nodemon ./server/app.js"

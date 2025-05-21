@@ -42,4 +42,4 @@ export async function create_todo(title, content){
 
 // testDBConnection()
 // console.log(await todo(1))
-console.log(await create_todo('test title', 'testing content'));
+console.log(await create_todo('test title3', 'testing content3'));
