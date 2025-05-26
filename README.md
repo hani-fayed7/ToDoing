@@ -1,12 +1,13 @@
 # ToDoing
 
-A simple Todo application with a Node.js & Express.js backend and a client-side frontend.
+A simple Todo application with a Node.js & Express.js backend and a client-side frontend. The backend uses PostgreSQL for data storage.
 
 ## Features
 
-- RESTful API for managing todos (create, read, get by ID)
-- MySQL database integration
+- RESTful API for managing todos and users (create, read, get by ID)
+- PostgreSQL database integration
 - Environment variable support with dotenv
+- Modular code structure for scalability
 
 ## Project Structure
 
@@ -18,14 +19,24 @@ A simple Todo application with a Node.js & Express.js backend and a client-side 
 │       ├── scripts.js
 │       └── styles.css
 ├── server/
-│   ├── node_modules/...
-│   ├── app.js
-│   ├── server.js
-|   |── package-lock.json
-│   ├── package.json
 │   ├── .env
-│   └── config/
-│       └── database.js
+│   ├── package.json
+│   ├── server.js
+│   └── src/
+│       ├── app.js
+│       ├── config/
+│       │   ├── config.js
+│       │   └── database.js
+│       ├── controllers/
+│       │   ├── todo.controller.js
+│       │   └── user.controller.js
+│       ├── modules/
+│       │   ├── todo.model.js
+│       │   └── user.model.js
+│       └── routes/
+│           ├── index.js
+│           ├── todo.routes.js
+│           └── user.routes.js
 ├── .gitignore
 ├── .gitattributes
 └── README.md
@@ -36,17 +47,19 @@ A simple Todo application with a Node.js & Express.js backend and a client-side 
 ### Prerequisites
 
 - Node.js (v16+ recommended)
-- MySQL server
+- PostgreSQL server
 
 ### Setup
 
 1. **Clone the repository:**
+
    ```sh
    git clone https://github.com/hani-fayed7/ToDoing.git
    cd ToDoing/server
    ```
 
 2. **Install dependencies:**
+
    ```sh
    npm install
    ```
@@ -54,27 +67,40 @@ A simple Todo application with a Node.js & Express.js backend and a client-side 
 3. **Configure environment variables:**
 
    Create a `.env` file in the `server/` directory with the following content:
+
    ```
-   MYSQL_HOST=localhost
-   MYSQL_PORT=3306
-   MYSQL_USER=your_mysql_user
-   MYSQL_PASSWORD=your_mysql_password
-   MYSQL_NAME=your_database_name
+   DB_HOST=localhost
+   DB_PORT=5432
+   DB_USER=your_postgres_user
+   DB_PASSWORD=your_postgres_password
+   DB_NAME=todoing_app
+   PORT=3000
+   NODE_ENV=development
+   # JWT_SECRET=your_jwt_secret_key
    ```
 
 4. **Set up the database:**
 
-   Create a `todo` table in your MySQL database:
+   Create the required tables in your PostgreSQL database:
+
    ```sql
-   CREATE TABLE hani(
-     id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+   CREATE TABLE users (
+     id SERIAL PRIMARY KEY,
+     username VARCHAR(255) NOT NULL,
+     email VARCHAR(255) NOT NULL
+   );
+
+   CREATE TABLE todos (
+     id SERIAL PRIMARY KEY,
+     user_id INTEGER REFERENCES users(id) NOT NULL,
      title VARCHAR(255) NOT NULL,
-     content TEXT NOT NULL,
-     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL 
+     description TEXT,
+     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
    );
    ```
 
 5. **Start the server:**
+
    ```sh
    npm run dev
    ```
@@ -83,9 +109,16 @@ A simple Todo application with a Node.js & Express.js backend and a client-side 
 
 ## API Endpoints
 
-- `GET /todo` - Get all todos
-- `GET /todo/:id` - Get a todo by ID
-- `POST /todo` - Create a new todo (JSON body: `{ "title": "...", "content": "..." }`)
+### Todos
+
+- `GET /api/todos` - Get all todos
+- `GET /api/todos/:id` - Get a todo by ID
+- `POST /api/todos` - Create a new todo (JSON body: `{ "user_id": ..., "title": "...", "description": "..." }`)
+
+### Users
+
+- `GET /api/users` - Get all users
+- `GET /api/users/:id` - Get a user by ID
 
 ## License
 
