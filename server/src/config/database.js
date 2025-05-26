@@ -1,18 +1,10 @@
-import pg from 'pg'
-import dotenv from 'dotenv'
-const { Pool } = pg
+import { Pool } from 'pg'
+import config from './config.js'
 
-// Load environment variables from .env file
-dotenv.config()
+const { database } = config
 
 // Create a new PostgreSQL connection pool
-const pool = new Pool({
-    host: process.env.PG_HOST,
-    port: process.env.PG_PORT,
-    user: process.env.PG_USER,
-    password: process.env.PG_PASSWORD,
-    database: process.env.PG_NAME
-})
+const pool = new Pool(database)
 
 // Test the connection
 export async function testDBConnection() {   
