@@ -4,8 +4,8 @@ import router from './routes/index.js'
 const app = express()
 app.use(express.json())
 
-// Mount the todo routes
-router.use('/', router)
+// Set up the routes
+app.use('/', router)
 
 // Error handling middleware
 app.use((err, req, res, next) => {
