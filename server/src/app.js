@@ -1,26 +1,26 @@
 import express from 'express'
-import * as db from './config/database.js'
+import * as todo_db from'./modules/todo.model.js'
 
 const app = express()
 app.use(express.json())
 
 // Get all todos
 app.get("/todo", async (req, res) => {
-    const todos = await db.testDBConnection()
+    const todos = await todo_db.getAllTodos()
     res.send(todos)
 });
 
 // Get a specific todo by ID
 app.get("/todo/:id", async (req, res) => {
     const id = req.params.id
-    const todos = await db.todo(id)
+    const todos = await todo_db.todo(id)
     res.send(todos)
 });
 
 // Create a new todo
 app.post("/todo", async (req, res) => {
     const {user_id, title, description} = req.body
-    const createTodo = await db.create_todo(user_id, title, description)
+    const createTodo = await todo_db.create_todo(user_id, title, description)
     res.status(201).send(createTodo)
 });
 
