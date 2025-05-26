@@ -1,3 +1,4 @@
+import dotenv from 'dotenv'
 dotenv.config(); // Loads environment variables from .env
 
 const config = {
