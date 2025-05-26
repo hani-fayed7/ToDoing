@@ -1,40 +1,39 @@
 import * as todoModel from'../modules/todo.model.js'
 
-import express from 'express'
-const app = express()
-app.use(express.json())
-
 // Get all todos
-export const getTodos = async (req, res) => {
-  try {
-    const result = await todoModel.getAllTodos()
-    res.send(result.rows)
-  } catch (err) {
-    res.status(500).send({ error: 'Failed to fetch todos' })
-  }
+export async function getTodos(req, res) {
+    try {
+        const todos = await todoModel.getAllTodos();
+        res.status(200).json(todos);
+    } catch (error) {
+        console.error('Error fetching todos:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 }
 
 // Get a specific todo by ID
-export const getTodoById = async (req, res) => {
+export async function getTodoById(req, res) {
   const { id } = req.params
   try {
     const result = await todoModel.todo(id)
-    if (result.rows.length === 0) {
-      return res.status(404).send({ error: 'Todo not found' })
+    if (!result) {
+      return res.status(404).json({ error: 'Todo not found' })
     }
-    res.send(result.rows[0])
-  } catch (err) {
-    res.status(500).send({ error: 'Failed to fetch todo' })
+    res.status(200).json(result)
+  } catch (error) {
+    console.error('Error fetching todo:', error)
+    res.status(500).json({ error: 'Internal Server Error' })
   }
 }
 
 // Create a new todo
-export const createTodo = async (req, res) => {
+export async function createTodo(req, res) {
   const { user_id, title, description } = req.body
   try {
     const result = await todoModel.create_todo(user_id, title, description)
-    res.status(201).send(result.rows[0])
-  } catch (err) {
-    res.status(500).send({ error: 'Failed to create todo' })
+    res.status(201).json(result)
+  } catch (error) {
+    console.error('Error creating todo:', error)
+    res.status(500).json({ error: 'Internal Server Error' })
   }
 }

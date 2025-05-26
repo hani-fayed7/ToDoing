@@ -1,25 +1,27 @@
 import * as userModel from '../modules/user.model.js'
 
 // Get all users
-export const getUsers = async (req, res) => {
+export async function getUsers(req, res) {
   try {
-    const result = await userModel.getAllUsers()
-    res.send(result.rows)
-  } catch (err) {
-    res.status(500).send({ error: 'Failed to fetch users' })
+    const users = await userModel.getAllUsers()
+    res.status(200).json(users)
+  } catch (error) {
+    console.error('Error fetching users:', error)
+    res.status(500).json({ error: 'Internal Server Error' })
   }
 }
 
 // Get a specific user by ID
-export const getUserById = async (req, res) => {
+export async function getUserById(req, res) {
   const { id } = req.params
   try {
     const result = await userModel.user(id)
     if (!result) {
-      return res.status(404).send({ error: 'User not found' })
+      return res.status(404).json({ error: 'User not found' })
     }
-    res.send(result)
-  } catch (err) {
-    res.status(500).send({ error: 'Failed to fetch user' })
+    res.status(200).json(result)
+  } catch (error) {
+    console.error('Error fetching user:', error)
+    res.status(500).json({ error: 'Internal Server Error' })
   }
 }
