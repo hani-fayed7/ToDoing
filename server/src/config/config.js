@@ -16,7 +16,7 @@ const config = {
   // 2. Server Configuration
   server: {
     port: parseInt(process.env.PORT) || 3000, // Port for the server to listen on
-    env: process.env.NODE_ENV || 'development', // Environment (development, production, etc.)
+    env: process.env.NODE_ENV || 'development' // Environment (development, production, etc.)
   },
 
   // 3. Security Settings
