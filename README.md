@@ -2,6 +2,10 @@
 
 A simple Todo application with a Node.js & Express.js backend and a client-side frontend. The backend uses PostgreSQL for data storage.
 
+## Project Status
+
+This project is currently under active development.
+
 ## Features
 
 - RESTful API for managing todos and users (create, read, get by ID)
@@ -84,18 +88,22 @@ A simple Todo application with a Node.js & Express.js backend and a client-side 
    Create the required tables in your PostgreSQL database:
 
    ```sql
-   CREATE TABLE users (
-     id SERIAL PRIMARY KEY,
-     username VARCHAR(255) NOT NULL,
-     email VARCHAR(255) NOT NULL
+   -- Create users table
+   CREATE TABLE IF NOT EXISTS users (
+       id SERIAL PRIMARY KEY,
+       email VARCHAR(255) UNIQUE NOT NULL,
+       password TEXT NOT NULL,
+       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
    );
-
-   CREATE TABLE todos (
-     id SERIAL PRIMARY KEY,
-     user_id INTEGER REFERENCES users(id) NOT NULL,
-     title VARCHAR(255) NOT NULL,
-     description TEXT,
-     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+   
+   -- Create todos table
+   CREATE TABLE IF NOT EXISTS todos (
+       id SERIAL PRIMARY KEY,
+       user_id INTEGER REFERENCES users(id) ON DELETE CASCADE NOT NULL,
+       title VARCHAR(255) NOT NULL,
+       description TEXT,
+       is_done BOOLEAN DEFAULT FALSE,
+       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
    );
    ```
 
