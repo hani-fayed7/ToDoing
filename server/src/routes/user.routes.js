@@ -9,4 +9,7 @@ router.get('/', userController.getUsers)
 // Get a specific user by ID
 router.get('/:id', userController.getUserById)
 
+// Create a new user
+router.post('/', userController.createUser)
+
 export default router

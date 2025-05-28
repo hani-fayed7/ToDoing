@@ -1,5 +1,7 @@
 import pool from '../config/database.js'
 
+
+
 // Function to get all users
 export async function getAllUsers() {
     const result = await pool.query('SELECT * FROM users')
@@ -17,12 +19,13 @@ export async function user(id){
     
 }
 
-// export async function create_todo(user_id, title, description) {
-//     const result = await pool.query(`
-//         INSERT INTO todos (user_id, title, description)
-//         VALUES ($1, $2, $3)
-//         RETURNING *
-//     `, [user_id, title, description]);
-//     const id = result.rows[0].id
-//     return await todo(id)
-// }
+// Function to create a new user
+export async function create_user(email, password) {
+    const result = await pool.query(`
+        INSERT INTO users (email, password)
+        VALUES ($1, $2)
+        RETURNING *
+    `, [email, password]);
+    const id = result.rows[0].id
+    return await user(id)
+}

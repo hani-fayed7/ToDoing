@@ -25,3 +25,15 @@ export async function getUserById(req, res) {
     res.status(500).json({ error: 'Internal Server Error' })
   }
 }
+
+// Create a new user  
+export async function createUser(req, res){
+  try{
+    const {email, password } = req.body
+    const result = await userModel.create_user(email, password)
+    res.status(201).json(result)
+  }catch(error){
+    console.error('Error creating user:', error)
+    res.status(500).json({ error: 'Internal Server Error' })
+  }
+}
