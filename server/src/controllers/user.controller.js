@@ -1,4 +1,5 @@
 import * as userModel from '../modules/user.model.js'
+import bcrypt from 'bcrypt'
 
 // Get all users
 export async function getUsers(req, res) {
@@ -29,9 +30,17 @@ export async function getUserById(req, res) {
 // Create a new user  
 export async function createUser(req, res){
   try{
-    const {email, password } = req.body
-    const result = await userModel.create_user(email, password)
-    res.status(201).json(result)
+    const {email, password} = req.body
+    
+    // Validate email and password
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Email and password are required' })
+    } else{
+      const saltRound = 10
+      const hashedPassword = await bcrypt.hash(password, saltRound) // Hash the password
+      const result = await userModel.create_user(email, hashedPassword)
+      res.status(201).json(result)
+    }
   }catch(error){
     console.error('Error creating user:', error)
     res.status(500).json({ error: 'Internal Server Error' })
