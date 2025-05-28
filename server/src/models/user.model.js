@@ -21,20 +21,11 @@ export async function user(id){
 
 // Function to create a new user
 export async function create_user(email, password) {
-    try{
-        const result = await pool.query(`
-            INSERT INTO users (email, password)
-            VALUES ($1, $2)
-            RETURNING *
-        `, [email, password]);
-        const id = result.rows[0].id
-        return await user(id)
-    }catch (err) {
-        console.error(err.message)
-        if (err.code === '23505') { // Unique violation error code
-            return { error: 'User already exists!' }
-        }else {
-            return { error: 'An error occurred while creating the user.' }
-        }
-    }
+    const result = await pool.query(`
+        INSERT INTO users (email, password)
+        VALUES ($1, $2)
+        RETURNING *
+    `, [email, password]);
+    const id = result.rows[0].id
+    return await user(id)
 }

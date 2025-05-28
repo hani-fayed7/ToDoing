@@ -29,23 +29,16 @@ export async function getUserById(req, res) {
 
 // Create a new user  
 export async function createUser(req, res){
+  const {email, password} = req.body
   try{
-    const {email, password} = req.body
-    
-    // Validate email and password
-    if (!email || !password) {
-      return res.status(400).json({ error: 'Email and password are required' })
-    // }else if (password.length < 6) {
-    //   return res.status(400).json({ error: 'Password must be at least 6 characters long' })
-    // }else if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/.test(email)) {
-    //   return res.status(400).json({ error: 'Invalid email format' })
-    }else{
-      const saltRound = 10
-      const hashedPassword = await bcrypt.hash(password, saltRound) // Hash the password
-      const result = await userModel.create_user(email, hashedPassword)
-      res.status(201).json(result)
-    }
+    const saltRound = 10
+    const hashedPassword = await bcrypt.hash(password, saltRound) // Hash the password
+    const result = await userModel.create_user(email, hashedPassword)
+    res.status(201).json(result)
   }catch(error){
+    if (error.code === '23505') { // Unique violation error code
+          return res.status(409).json({ error: 'User already exists!' })
+    }
     console.error('Error creating user:', error)
     res.status(500).json({ error: 'Internal Server Error' })
   }
