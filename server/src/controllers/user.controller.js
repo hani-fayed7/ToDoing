@@ -1,4 +1,4 @@
-import * as userModel from '../modules/user.model.js'
+import * as userModel from '../models/user.model.js'
 import bcrypt from 'bcrypt'
 
 // Get all users
@@ -35,7 +35,11 @@ export async function createUser(req, res){
     // Validate email and password
     if (!email || !password) {
       return res.status(400).json({ error: 'Email and password are required' })
-    } else{
+    // }else if (password.length < 6) {
+    //   return res.status(400).json({ error: 'Password must be at least 6 characters long' })
+    // }else if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/.test(email)) {
+    //   return res.status(400).json({ error: 'Invalid email format' })
+    }else{
       const saltRound = 10
       const hashedPassword = await bcrypt.hash(password, saltRound) // Hash the password
       const result = await userModel.create_user(email, hashedPassword)
