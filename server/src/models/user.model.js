@@ -31,6 +31,10 @@ export async function create_user(email, password) {
         return await user(id)
     }catch (err) {
         console.error(err.message)
-        return { error: 'User already exists!' }
+        if (err.code === '23505') { // Unique violation error code
+            return { error: 'User already exists!' }
+        }else {
+            return { error: 'An error occurred while creating the user.' }
+        }
     }
 }
