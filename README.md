@@ -9,9 +9,12 @@ This project is currently under active development.
 ## Features
 
 - RESTful API for managing todos and users (create, read, get by ID)
+- Input validation using express-validator
 - PostgreSQL database integration
 - Environment variable support with dotenv
-- Modular code structure for scalability
+- Modular code structure for scalability and maintainability
+- Error handling middleware for validation and server errors
+- Easy project setup and clear API documentation
 
 ## Project Structure
 
@@ -34,13 +37,18 @@ This project is currently under active development.
 │       ├── controllers/
 │       │   ├── todo.controller.js
 │       │   └── user.controller.js
+|       |── middlewares/
+|       |   └── validation.middleware.js
 │       ├── modules/
 │       │   ├── todo.model.js
 │       │   └── user.model.js
-│       └── routes/
-│           ├── index.js
-│           ├── todo.routes.js
-│           └── user.routes.js
+│       |── routes/
+│       |   ├── index.js
+│       |   ├── todo.routes.js
+│       |   └── user.routes.js
+|       └── validators/
+│           ├── todo.validator.js
+|           └── user.validator.js
 ├── .gitignore
 ├── .gitattributes
 └── README.md
@@ -121,12 +129,36 @@ This project is currently under active development.
 
 - `GET /api/todos` - Get all todos
 - `GET /api/todos/:id` - Get a todo by ID
-- `POST /api/todos` - Create a new todo (JSON body: `{ "user_id": ..., "title": "...", "description": "..." }`)
+- `POST /api/todos` - Create a new todo  
+  **Request body:**  
+  ```json
+  {
+    "user_id": 1,
+    "title": "Buy groceries",
+    "description": "Milk, Bread, Eggs"
+  }
+  ```
+  - **Validation:**  
+    - `user_id` must be a valid user ID and not empty  
+    - `title` must be a non-empty string  
+    - `description` is optional
 
 ### Users
 
+
 - `GET /api/users` - Get all users
 - `GET /api/users/:id` - Get a user by ID
+- `POST /api/users` - Create a new user  
+  **Request body:**  
+  ```json
+  {
+    "email": "user@example.com",
+    "password": "StrongPassword123!"
+  }
+  ```
+  - **Validation:**  
+    - Email must be valid and not empty  
+    - Password must be at least 6 characters and contain uppercase, lowercase, number, and special character
 
 ## License
 
