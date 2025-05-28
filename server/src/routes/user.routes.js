@@ -1,5 +1,8 @@
-import * as userController from '../controllers/user.controller.js'
 import express from 'express'
+import { checkSchema } from 'express-validator'
+import * as userController from '../controllers/user.controller.js'
+import * as userValidator from '../validators/user.validator.js'
+import * as  validateRequest from '../middlewares/validation.middleware.js'
 
 const router = express.Router()
 
@@ -10,6 +13,6 @@ router.get('/', userController.getUsers)
 router.get('/:id', userController.getUserById)
 
 // Create a new user
-router.post('/', userController.createUser)
+router.post('/', checkSchema(userValidator.createUserValidatorSchema), validateRequest.handleValidationErrors, userController.createUser)
 
 export default router
